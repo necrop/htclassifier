@@ -1,0 +1,106 @@
+{% extends "htc/base.html" %}
+
+{% block page_title %}
+	{{ user.username }} user details
+{% endblock %}
+
+{% block pagecontent %}
+	<div class="hero-unit subhero">
+		<h2>{{ user.username }} ({{ user.first_name }} {{ user.last_name }})</h2>
+		<a class="btn btn-primary" href="{% url 'logout' %}">Log out</a>
+	</div>
+
+	{% if status %}
+		<div class="row-fluid">
+			<div class="span8 offset1">
+				<h4>
+					{% if status == 'dsuccess' %}Your details have been updated.{% endif %}
+					{% if status == 'psuccess' %}Your password has been changed.{% endif %}
+					{% if status == 'lfail' %}<span style="color: red;">Unable to update your user record.</span>{% endif %}
+					{% if status == 'pfail' %}<span style="color: red;">Unable to change your password. Please try again, making sure that your current password is correct, and that you enter exactly the same new password in both boxes.</span>{% endif %}
+				</h4>
+			</div>
+		</div>
+	{% endif %}
+
+	<div class="row-fluid">
+		<div class="span8 offset1 well">
+			<h4>Update details</h4>
+
+			<form class="form-horizontal" action="{% url 'htc:changeuserdetails' %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="userid" value="{{ user.id }}"/>
+				<input type="hidden" name="mode" value="details"/>
+				<fieldset>
+					<div class="control-group">
+						<label class="control-label">First name:</label>
+						<div class="controls">
+							<input type="text" name="firstname" value="{{ user.first_name }}"/>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Last name:</label>
+						<div class="controls">
+							<input type="text" name="lastname" value="{{ user.last_name }}"/>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Email:</label>
+						<div class="controls">
+							<input type="text" name="email" value="{{ user.email }}"/>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="controls">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+		<div class="span8 offset1 well">
+			<h4>Change password</h4>
+
+			<form class="form-horizontal" action="{% url 'htc:changeuserdetails' %}" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="userid" value="{{ user.id }}"/>
+				<input type="hidden" name="mode" value="password"/>
+				<fieldset>
+					<div class="control-group">
+						<label class="control-label">Current password:</label>
+						<div class="controls">
+							<input type="password" name="password"/>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">New password:</label>
+						<div class="controls">
+							<input type="password" name="newpassword1"/>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">New password (again):</label>
+						<div class="controls">
+							<input type="password" name="newpassword2"/>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="controls">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+{% endblock %}
+

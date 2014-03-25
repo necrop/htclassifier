@@ -1,0 +1,67 @@
+{% extends "htc/base.html" %}
+
+
+{%  block extraconstants %}
+	var update_checkbox_ajax_url = "{% url 'htc:updatecheckbox' %}";
+	var localtree_ajax_url = "{% url 'htc:localtree' senseid=9 currentid=8 centralid=7 count=0 %}";
+	var sensedetails_ajax_url = "{% url 'htc:sensedetailsjson' senseid=999 %}";
+{% endblock %}
+
+
+{% block pagecontent %}
+
+	{% block visiblecontent %}
+	{% endblock %}
+
+	<!-- Modal used for switching to a different thesaurus class -->
+	<div id="classchangeModal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3>
+				<span id="classChangeModalHeader"></span>
+				<a id="classChangeModalSenselink" href="#" target="dbrowser" title="View this sense in Dictionary Browser"><i class="icon-share-alt"></i></a>
+			</h3>
+		</div>
+		<div class="modal-body">
+			<div id="classChangeModalDefinition"></div>
+			<div>
+				<h4>Tree navigation</h4>
+				<p>
+					Navigate by clicking the '+' symbol next to class you want to open.
+					Click on a class to select it.
+					(Note that only classes below part-of-speech level can be selected.)
+				</p>
+				<div id="classChangeModalTree"></div>
+			</div>
+			<div>
+				<h4>Direct class ID selection</h4>
+				<p>
+					Paste the ID of the desired class into the box below, and click 'submit'.
+					To find the class ID, navigate to the class in the Thesaurus Browser, and click 'link to this page'; the class ID should now be in URL in the browser's address bar.
+					You can paste in the class ID, or paste in the whole URL. (The ID will be extracted automatically).
+				</p>
+				<form id="classchangeModalForm" class="form-horizontal" action="{% url 'htc:redirectlink' %}" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="senseid" value=""/>
+					<input type="hidden" name="count" value=""/>
+					<fieldset>
+						<div class="control-group">
+							<label class="control-label">Class ID or URL:</label>
+							<div class="controls">
+								<input type="text" name="classid"/>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="controls">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		</div>
+	</div>
+{% endblock %}

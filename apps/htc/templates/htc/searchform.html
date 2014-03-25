@@ -1,0 +1,170 @@
+﻿{% extends "htc/base.html" %}
+
+{% block page_title %}
+search
+{% endblock %}
+
+{% block pagecontent %}
+	<div class="hero-unit subhero">
+		<h2>Advanced search</h2>
+	</div>
+
+
+	<form class="form-horizontal" action="{% url "htc:submitsearch" %}" method="post">
+		{% csrf_token %}
+		<input type="hidden" name="mode" value="advanced"/>
+		<fieldset>
+			<div class="control-group">
+				<label class="control-label">Status:</label>
+				<div class="controls">
+					<div><input type="checkbox" name="classified" checked="checked"/> classified</div>
+					<div><input type="checkbox" name="unclassified"/> unclassified</div>
+					<div><input type="checkbox" name="intractable"/> intractable</div>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Lemma:</label>
+				<div class="controls">
+					<input type="text" name="lemma" value="{{ form.lemma }}"/>{% include 'htc/includes/q_popover.html' with text="Return senses with this lemma (equivalent to the entry headword if a main sense, or the sublemma if a subentry). Enter the lemma in downcased form, without diacritics. You can give a simple lemma, e.g. 'knight', or a prefix with wildcard, e.g. 'kn*'. Use an underscore to specify a range, e.g. 'kn_kozz'." %}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Entry headword:</label>
+				<div class="controls">
+					<input type="text" name="headword" value="{{ form.headword }}"/>{% include 'htc/includes/q_popover.html' with text="Return senses found in entries with this headword" %}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Wordclass:</label>
+				<div class="controls">
+					<select name="wordclass">
+						{% for o in form.wordclass_options %}
+							<option value="{{ o.0 }}"{% if o.2 %} selected="selected"{% endif %}>{{ o.1 }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Sense type:</label>
+				<div class="controls">
+					<select name="sensetype">
+						{% for o in form.sensetype_options %}
+							<option value="{{ o.0 }}"{% if o.2 %} selected="selected"{% endif %}>{{ o.1 }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Definition status:</label>
+				<div class="controls">
+					<select name="defstatus">
+						{% for o in form.defstatus_options %}
+							<option value="{{ o.0 }}"{% if o.2 %} selected="selected"{% endif %}>{{ o.1 }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Split definition:</label>
+				<div class="controls">
+					<select name="splitdefinition">
+						{% for o in form.splitdefinition_options %}
+							<option value="{{ o.0 }}"{% if o.2 %} selected="selected"{% endif %}>{{ o.1 }}</option>
+						{% endfor %}
+					</select>
+					{% include 'htc/includes/q_popover.html' with text="Return senses where the definition has been split into separate subdefinitions." %}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Reason code:</label>
+				<div class="controls">
+					<select name="reasoncode">
+						{% for o in form.reason_options %}
+							<option value="{{ o.0 }}"{% if o.2 %} selected="selected"{% endif %}>{{ o.1 }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Thesaurus branch:</label>
+				<div class="controls">
+					<select name="branch">
+						{% for o in form.branch_options %}
+							<option value="{{ o.0 }}"{% if o.2 %} selected="selected"{% endif %}>{{ o.1 }}</option>
+						{% endfor %}
+					</select>
+					{% include 'htc/includes/q_popover.html' with text="Return senses classified anywhere on the specified thesaurus branch." %}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Include topical classifications:</label>
+				<div class="controls">
+					<input type="checkbox" name="includetopicalclassifications" {% if form.includetopicalclassifications %}checked="checked"{% endif %}/>
+					{% include 'htc/includes/q_popover.html' with text="Include senses with high-level topic-based classifications." %}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Bayes match:</label>
+				<div class="controls">
+					<select name="bayesmismatch">
+						{% for o in form.bayesmismatch_options %}
+							<option value="{{ o.0 }}"{% if o.2 %} selected="selected"{% endif %}>{{ o.1 }}</option>
+						{% endfor %}
+					</select>
+					{% include 'htc/includes/q_popover.html' with text="Return senses in which the thesaurus classification is matched or mismatched with the Bayesian classification." %}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Manually marked as:</label>
+				<div class="controls">
+					<select name="marking">
+						{% for o in form.marking_options %}
+							<option value="{{ o.0 }}"{% if o.2 %} selected="selected"{% endif %}>{{ o.1 }}</option>
+						{% endfor %}
+					</select>
+					{% include 'htc/includes/q_popover.html' with text="Return senses whose classification has been manually marked as correct or incorrect." %}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Edited by:</label>
+				<div class="controls">
+					<select name="editedby">
+						{% for o in form.user_options %}
+							<option value="{{ o.0 }}"{% if o.2 %} selected="selected"{% endif %}>{{ o.1 }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Most recently edited:</label>
+				<div class="controls">
+					<select name="delta">
+						{% for o in form.delta_options %}
+							<option value="{{ o.0 }}"{% if o.2 %} selected="selected"{% endif %}>{{ o.1 }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="controls">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+{% endblock %}
+

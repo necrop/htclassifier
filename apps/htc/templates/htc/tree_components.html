@@ -1,0 +1,23 @@
+
+{%  for t in centralclass.local_context %}
+	<div class="treeElement" style="padding-left: {{ t.indent }}em;">
+		&ndash;
+		{% if t.wordclass and t.wordclass_penn != sense.wordclass %}
+			<span style="color: #C0C0C0;">{{ t.node_label }}</span>
+		{% else %}
+			{% if t == currentclass %}
+				<strong>{{ t.node_label }}</strong>
+			{% else %}
+				{% if t.wordclass and t.wordclass_penn == sense.wordclass %}
+					<a href="{% url 'htc:shiftlink' classid=t.id senseid=sense.id count=count %}" title="Select this class">{{ t.node_label }}</a>
+				{% else %}
+					{{ t.node_label }}
+				{% endif %}
+			{% endif %}
+			{% if t.children and t != centralclass %}
+				<a class="centreclass" href="#" title="Re-centre on this class" centralid="{{ t.id }}" currentid="{{ currentclass.id }}"><i class="icon-plus"></i></a>
+			{%  endif %}
+			<a href="{{ t.oed_url }}" target="tbrowser" title="View this class in Thesaurus Browser"><i class="icon-share-alt"></i></a>
+		{% endif %}
+	</div>
+{%  endfor %}

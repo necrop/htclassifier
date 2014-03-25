@@ -1,0 +1,27 @@
+﻿<div class="thesclass {% if class.status == 'i' %}thesclassDeprecated{% endif %}{% if class.status == 'p' or class.status == 'c' %}thesclassApproved{% endif %}" senseId="{{ sense_id }}" thesclassCount="{{ class.count }}">
+	<div>
+		{% if highlight %}
+			<strong>{% include "htc/includes/breadcrumb.html" with c=class.class controls=editmode %}</strong>
+		{% else %}
+			{% include "htc/includes/breadcrumb.html" with c=class.class controls=editmode %}
+		{% endif %}
+	</div>
+
+	{% if editmode == 'on' %}
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				{% if class.allow_correct %}
+					<a class="checkboxButton btn btn-small {% if class.status == 'c' %}btn-success{% endif %}" href="#" value="c" title="correct">
+						<i class="icon-ok"></i>
+					</a>
+				{% endif %}
+				<a class="checkboxButton btn btn-small {% if class.status == 'p' %}btn-warning{% endif %}" href="#" value="p" title="partially correct">
+					<i class="icon-question-sign"></i>
+				</a>
+				<a class="checkboxButton btn btn-small {% if class.status == 'i' %}btn-danger{% endif %}" href="#" value="i" title="incorrect">
+					<i class="icon-remove"></i>
+				</a>
+			</div>
+		</div>
+	{% endif %}
+</div>

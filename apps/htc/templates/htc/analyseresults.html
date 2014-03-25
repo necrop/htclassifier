@@ -1,0 +1,82 @@
+﻿{% extends "htc/base.html" %}
+{% load htc_extras %}
+
+
+{% block page_title %}
+{% if snapshot %}
+	snapshot
+{% else %}
+	search results analysis
+{% endif %}
+{% endblock %}
+
+{% block pagecontent %}
+	<div class="hero-unit subhero">
+		<h2>
+			{% if snapshot %}
+				Snapshot
+			{% else %}
+				Search Results Analysis
+			{% endif %}
+		</h2>
+		<p>
+			{% if snapshot %}
+				Summary of the current state of the database
+				<a class="btn btn-small" href="{% url 'htc:analyseresults' %}"><i class="icon-list-alt"></i> More details</a>
+			{% else %}
+				{{ total }} results &nbsp;&nbsp;
+				<a class="btn btn-small" href="{{ results_url }}" title="View results for this results set"><i class="icon-list"></i> View results</a>
+			{% endif %}
+		</p>
+	</div>
+
+	{% if not snapshot %}
+		<div class="row-fluid">
+			<div class="well">
+				<strong>Search parameters:</strong>
+				{% for p in parameters %}
+					&nbsp;&nbsp;&nbsp;{{ p.0 }}={{ p.1 }}&nbsp;<a href="{% url 'htc:analyseresults' %}?{{ p.2 }}" title="Remove this parameter"><i class="icon-remove"></i></a>
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+
+	{% for header, values in counts %}
+		<div class="row-fluid">
+			<div class="span8 offset1">
+				<h4>{{ header|capfirst }}</h4>
+				{% if header == 'reason code' or header == 'branch' %}
+					<p><em>Classified senses only. Percentages are relative to the total number of classified senses ({{ classified_total }}).</em></p>
+				{% endif %}
+				<table class="table table-bordered table-hover">
+					<tbody>
+						{% for v in values %}
+							<tr>
+								<td width="40%">{{ v.value_display }}</td>
+								<td width="20%">{{ v.count }}</td>
+								<td width="20%">
+									{% if header == 'reason code' or header == 'branch' %}
+										{{ v.count|as_percentage_of:classified_total }}
+									{% else %}
+										{{ v.count|as_percentage_of:total }}
+									{% endif %}
+								</td>
+								<td>
+									{% if snapshot or values|length == 1 %}
+										&nbsp;
+									{% else %}
+										<a class="btn btn-primary btn-small" href="{{ path }}?{{ v.filter_added }}">
+											<i class="icon-filter icon-white"></i> Add filter
+										</a>
+									{% endif %}
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	{% endfor %}
+
+
+{% endblock %}

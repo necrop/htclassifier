@@ -1,0 +1,104 @@
+﻿{% extends "htc/baseactive.html" %}
+
+
+{% block page_title %}
+search results {% if sample %}(sample){% endif %}
+{% endblock %}
+
+{% block visiblecontent %}
+	<div class="hero-unit subhero">
+		<h2>Search Results {% if sample %}(sample){% endif %}</h2>
+		<p>
+			{% if sample %}
+				Sample size: {{ sample }} (sampled from {{ num_results }} results)
+			{% else %}
+				{{ summary }} &nbsp;&nbsp;
+				<a class="btn btn-small" href="{{ analyse_url }}" title="Analyse composition of this results set"><i class="icon-tasks"></i> Analyse</a>
+			{% endif %}
+		</p>
+	</div>
+
+	<div class="row-fluid">
+		<div class="well">
+			<strong>Search parameters:</strong>
+			{% for p in parameters %}
+				&nbsp;&nbsp;&nbsp;{{ p.0 }}={{ p.1 }}&nbsp;<a href="{% url 'htc:searchresults' %}?{{ p.2 }}" title="Remove this parameter"><i class="icon-remove"></i></a>
+			{% endfor %}
+			{% if num_results > 50 %}
+				<p>
+					<strong>Random sample</strong> from this results set:
+					{% for s in samplers %}
+						&nbsp;&nbsp;&nbsp;<a href="{% url 'htc:searchresults' %}?{{ s.1 }}" title="View random sample of {{ s.0 }} results">{{ s.0 }}</a>
+					{% endfor %}
+				</p>
+			{% endif %}
+		</div>
+	</div>
+
+	{% include "htc/includes/pagination.html" %}
+	<table class="table table-bordered table-hover">
+		<tbody>
+			{% for r in results %}
+				<tr id="{{ r.row_id }}">
+					<td>
+						{% if sample %}
+							{{ forloop.counter }}
+						{% else %}
+							{{ forloop.counter0|add:results.start_index }}
+						{% endif %}
+					</td>
+					<td>
+						<span class="lemma"><a href="{{ r.get_absolute_url }}">{{ r.lemma }}</a></span> ({{ r.wordclass_readable }})
+						<br/>s.v. <em>{{ r.headword }}</em>
+					</td>
+					<td>
+						<p><a href="{{ r.oed_url }}" target="dbrowser" title="View this sense in Dictionary Browser"><i class="icon-share-alt"></i></a></p>
+						<p><a href="{{ r.get_absolute_url }}" title="View details"><i class="icon-list-alt"></i></a></p>
+						{% if r.splitdefinition %}
+							<p><a href="{{ r.get_absolute_url }}" title="This is a split definition"><i class="icon-star-empty"></i></a></p>
+						{% endif %}
+						{% if r.comment %}
+							<p><a href="{{ r.get_absolute_url }}" title="View note"><i class="icon-comment"></i></a></p>
+						{% endif %}
+						{% if r.user %}
+							<p><a href="{{ r.get_absolute_url }}" title="Last edited by {{ r.user_label }}, {{ r.timestamp|date:'r' }}"><i class="icon-user"></i></a></p>
+						{% endif %}
+					</td>
+					<td>
+						<div class="definition">
+							{% if r.definition %}&quot;{{ r.definition }}&quot;{% else %}[undefined]{% endif %} &nbsp;
+						</div>
+
+						{% for t in r.live_thesclasses %}
+							{% include "htc/includes/thesclass.html" with class=t sense_id=r.id %}
+						{% endfor %}
+
+						{% if r.deprecated_thesclasses %}
+							<div class="deprecatedContainer">
+								<div class="deprecatedClosed">
+									<a href="#" title="show deprecated classifications"><i class="icon-chevron-down"></i></a>
+								</div>
+								<div class="deprecatedOpen">
+									<a href="#" title="hide deprecated classifications"><i class="icon-chevron-up"></i></a>
+									{% for t in r.deprecated_thesclasses %}
+										{% include "htc/includes/thesclass.html" with class=t sense_id=r.id %}
+									{% endfor %}
+								</div>
+							</div>
+						{% endif %}
+
+					</td>
+					<td>
+						{% if r.live_thesclasses %}
+							{{ r.reasoncode }}
+						{% else %}
+							&nbsp;
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% include "htc/includes/pagination.html" %}
+
+{% endblock %}

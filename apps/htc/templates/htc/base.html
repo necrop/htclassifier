@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>HT classifier: {% block page_title %}{% endblock %}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<link href="/static/common/bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="/static/common/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+		<link href="/static/htc/css/basestyle.css" rel="stylesheet">
+		{% block extralinks %}
+		{% endblock %}
+		<style type="text/css">
+			{% block extrastyle %}
+			{% endblock %}
+		</style>
+		<script>
+			{% block extraconstants %}
+			{% endblock %}
+		</script>
+
+		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
+
+	<body editmode="{{ editmode }}">
+
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="brand" href="{% url 'htc:home' %}">HT Classifier</a>
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li><a href="{% url 'htc:searchform' %}">Advanced search</a></li>
+							<li><a href="{% url 'htc:snapshot' %}">Snapshot</a></li>
+							<li><a href="{% url 'htc:info' page='help' %}">Help</a></li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="{% url 'htc:info' page='documents' %}">Documents</a></li>
+									<li><a href="{% url 'htc:toggleeditmode' %}">Turn edit mode {% if editmode == 'off' %}on{% else %}off{% endif %}</a></li>
+									{% if user and user.username %}
+										<li><a href="{% url 'htc:userdetails' %}">Change user details/password</a></li>
+										<li><a href="{% url 'logout' %}">Log out</a></li>
+									{% else %}
+										<li><a href="{% url 'login' %}?next={% url 'htc:home' %}">Log in</a></li>
+									{% endif %}
+								</ul>
+							</li>
+						</ul>
+
+						{% if user and user.username %}
+							<a href="{% url 'htc:userdetails' %}" data-content="{{ user.username }} ({{ user.first_name }} {{ user.last_name }})" rel="popover-below" data-toggle="popover"><i class="icon-user icon-white"></i></a>
+						{% else %}
+							<a href="{% url 'login' %}?next={% url 'htc:home' %}" data-content="Log in" rel="popover-below" data-toggle="popover"><i class="icon-user"></i></a>
+						{% endif %}
+
+						{% if editmode == 'on' %}
+							<a data-content="Edit mode is on. (Click to toggle)" rel="popover-below" data-toggle="popover" href="{% url 'htc:toggleeditmode' %}">
+								<i class="icon-edit icon-white"></i>
+							</a>
+						{% else %}
+							<a data-content="Edit mode is off. (Click to toggle)" rel="popover-below" data-toggle="popover" href="{% url 'htc:toggleeditmode' %}">
+								<i class="icon-edit"></i>
+							</a>
+						{% endif %}
+
+						<form class="navbar-form pull-right" action="{% url 'htc:submitsearch' %}" method="post">
+							<a data-content="Enter lemma in downcased form, without diacritics or hyphens. You can give a simple lemma, e.g. 'knight', or a prefix with wildcard, e.g. 'kn*'. Use an underscore to specify a range, e.g. 'kn_kozz'." rel="popover-below" data-toggle="popover" href="#">
+								<i class="icon-question-sign icon-white"></i>
+							</a>&nbsp;
+							{% csrf_token %}
+							<input type="hidden" name="mode" value="quick"/>
+							<div class="input-prepend  input-append">
+								 <div class="btn-group">
+									<button class="btn dropdown-toggle" data-toggle="dropdown" id="quicksearchmode">
+										<span class="caret"></span> Headword:
+									</button>
+									<ul class="dropdown-menu" id="quicksearchswitch">
+										<li><a href="#">Search by headword</a></li>
+										<li><a href="#">Search by lemma</a></li>
+									</ul>
+								</div>
+								<input class="span2" type="text" name="headword" value="{{ quicksearchvalue }}" id="quicksearchinput"/>
+								<button type="submit" class="btn" title="quick search">
+									<i class="icon-search"></i>
+								</button>
+							</div>
+						</form>
+					</div><!--/.nav-collapse -->
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			{% block pagecontent %}
+			{% endblock %}
+		</div> <!-- /container -->
+
+		{% comment %}
+		Hidden_elements: HTML for modals, etc., goes here
+		{% endcomment %}
+		{% block hidden_elements %}
+		{% endblock %}
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="/static/common/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/static/htc/js/gp.js"></script> <!-- general purpose functions, available to all pages -->
+		<script>
+			$(document).ready( function() {
+				/* any page-specific scripts go here */
+				{% block extrascript %}
+				{% endblock %}
+			});
+		</script>
+	</body>
+</html>

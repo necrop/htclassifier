@@ -1,0 +1,37 @@
+{% extends "htc/base.html" %}
+
+{% block page_title %}
+home
+{% endblock %}
+
+{% block pagecontent %}
+	<div class="hero-unit subhero">
+		<h1>Historical Thesaurus Classifier</h1>
+		<p>Automatic classification of unclassified OED senses</p>
+	</div>
+
+	<div class="row-fluid">
+		<div class="span4 well">
+			<h2>Search</h2>
+			<p>Advanced search options</p>
+			<p><a class="btn btn-primary" href="{% url 'htc:searchform' %}">&nbsp;<i class="icon-chevron-right icon-white"></i>&nbsp;</a></p>
+		</div>
+		<div class="span4 well">
+			<h2>Help</h2>
+			<p><a class="btn btn-primary" href="{% url 'htc:info' page='help' %}">&nbsp;<i class="icon-chevron-right icon-white"></i>&nbsp;</a></p>
+		</div>
+		<div class="span4 well">
+			<h2>Documents</h2>
+			<p><a class="btn btn-primary" href="{% url 'htc:info' page='documents' %}">&nbsp;<i class="icon-chevron-right icon-white"></i>&nbsp;</a></p>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+		<div class="span4 well">
+			<h2>Snapshot</h2>
+			<p>Summary of the current state of the database</p>
+			<p><a class="btn btn-primary" href="{% url 'htc:snapshot' %}">&nbsp;<i class="icon-chevron-right icon-white"></i>&nbsp;</a></p>
+		</div>
+	</div>
+{% endblock %}
+

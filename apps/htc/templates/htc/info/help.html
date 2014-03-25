@@ -1,0 +1,381 @@
+{% extends "htc/info/info_frame.html" %}
+
+{% block page_title %}
+Help
+{% endblock %}
+
+{% block header_title %}
+Help
+{% endblock %}
+
+
+{% block tableofcontents %}
+Contents: <a href="#introduction">Introduction</a> | <a href="#dataset">Data set</a> | <a href="#userdetails">User details</a> | <a href="#editmode">Read mode and edit mode</a> | <a href="#quicksearch">Quick search</a> | <a href="#advancedsearch">Advanced search</a> | <a href="#searchresults">Search results</a> | <a href="#sensedetail">Sense detail</a> | <a href="#datestamps">Date-, time-, and user stamps</a> | <a href="#analysis">Analysis</a> | <a href="#runnerup">Runner-up classifications</a> | <a href="#split">Split definitions</a> | <a href="#approving">Approving a classification</a> | <a href="#adjusting">Adjusting an incorrect classification</a> | <a href="#notes">Adding and editing notes</a> | <a href="#intractable">Intractable senses</a> 
+{% endblock %}
+
+
+{% block textcontent %}
+
+	<div class="well" id="introduction">
+		<h3>Introduction</h3>
+
+		<p>This site shows work in progress for the pilot project to automatically classify OED senses into the Historical Thesaurus taxonomy. For background to the project, see the <a href="{% url 'htc:info' page='documents' %}">Documents</a> page.</p>
+
+		<p>More complete information about the site can be found in the user's instructions document; download this from the <a href="{% url 'htc:info' page='documents' %}">Documents</a> page.</p>
+	</div>
+
+
+	<div class="well" id="dataset">
+		<h3>Data set</h3>
+
+		<p>The data set contains all OED senses that do not currently have a Historical Thesaurus classification (about 260,000 senses). These are subdivided into three categories:
+			<ul>
+				<li><strong>classified</strong>: Senses that have been assigned a provisional classification by the automatic classifier process.</li>
+				<li><strong>unclassified</strong>: Senses that have not yet been assigned a provisional classification by the automatic classifier process.</li>
+				<li><strong>intractable</strong>: Senses regarded as intractable or not viable for present purposes, and for which automatic classification has not been attempted.</li>
+			</ul>
+		</p>
+
+		<p>By default, senses in the ‘unclassified’ and ‘intractable’ categories are omitted from search results, analysis, etc. However, senses in these categories can be included by ticking the relevant boxes at the top of the Advanced Search form.</p>
+
+		<p>A ‘sense’ here corresponds to a sense unit in OED Online, i.e. includes subentries as well as main senses.</p>
+	</div>
+
+
+	<div class="well" id="userdetails">
+		<h3>User details</h3>
+
+		<p>You are required to log in the first time you use the site. Your login will then persist for the duration of the session, and may persist the next time you use the site (depending on your browser’s settings). Your username is recorded along with every editorial action you perform (e.g. approving a classification; moving a classification; adding or editing a note).</p>
+
+		<p>When you are logged in, the user icon (<i class="icon-user"></i>) is highlighted in the centre of the top navigation. Click the user icon to go to the user details page. Here you can change your user details, or change your password.</p>
+
+		<p>You can log out by clicking <em>More » Log out</em> in the top navigation.</p>
+	</div>
+
+
+	<div class="well" id="editmode">
+		<h3>Read mode and edit mode</h3>
+
+		<p>The site can be used in either of two modes: read mode and edit mode:
+			<ul>
+				<li>In read mode, you can search and analyse the content, but you cannot change anything.</li>
+				<li>In edit mode, you can use all the search and analysis functions available in read mode, but in addition you can approve classifications, move classifications, and add or edit notes.</li>
+			</ul>
+		</p>
+
+		<p>The site is in read mode by default. You can turn on edit mode by clicking <em>More » Turn edit mode on</em> in the top navigation. When edit mode is on, the small <i class="icon-edit"></i> icon is highlighted in the middle of the top navigation. (Edit mode can also be toggled on and off by clicking this icon.)</p>
+
+		<p>Note that edit mode is only available to users with edit permissions.</p>
+
+		<div>
+			<h4>Functions available in edit mode</h4>
+
+			<p>When edit mode is on, a set of buttons for approving the classification appears beneath the thesaurus class breadcrumb in results lists and in the sense detail view.</p>
+
+			<p>An icon for adjusting classifications (<i class="icon-move"></i>) appears at the end of the thesaurus class breadcrumb in results lists and in the sense detail view.</p>
+
+			<p>A box for adding or editing notes appears in the sense detail view.</p>
+		</div>
+	</div>
+
+
+	<div class="well" id="quicksearch">
+		<h3>Quick search</h3>
+
+		<p>For quick search, enter a query term in the search box at the right of the top navigation.</p>
+
+		<p>Quick search can be used in two modes: to search for senses whose lemma matches the query term, or to search for senses in entries whose headword matches the query term. Quick search uses ‘headword’ mode by default, but this can be changed using the selector to the left of the input box.</p>
+
+		<p>The query term may be a complete lemma, a wildcarded lemma, or a lemma range (use an underscore to indicate a range). For example, in ‘lemma’ mode:
+			<ul>
+				<li>‘mail’ returns all senses with the lemma <em>mail</em>;</li>
+				<li>‘ma*’ returns all senses with lemmas beginning with <em>ma...</em>;</li>
+				<li>‘mec_mozz’ returns all senses with lemmas in the alphabetic range from <em>mec</em> to <em>mozz</em>.</li>
+			</ul>
+		</p>
+
+		<p>In ‘headword’ mode:
+			<ul>
+				<li>‘mail’ returns all senses in entries with the headword <em>mail</em>;</li>
+				<li>‘ma*’ returns all senses in entries with a headword beginning with <em>ma...</em>;</li>
+				<li>‘mec_mozz’ returns all senses in entries a headword in the alphabetic range from <em>mec</em> to <em>mozz</em>.</li>
+			</ul>
+		</p>
+
+		<p>Quick search is case-, space-, hyphen-, and diacritic-insensitive.</p>
+
+		<p>Quick search automatically includes senses categorized as ‘classified’, and excludes senses categorized as ‘unclassified’ or ‘intractable’. Use Advanced Search if you want to change this behaviour.</p>
+	</div>
+
+
+	<div class="well" id="advancedsearch">
+		<h3>Advanced search</h3>
+
+		<p>Advanced Search enables you to search for senses with a wide range of features, and allows you to override some of the default settings.</p>
+
+		<p>All fields are optional, and can be combined in any way. Leaving all fields blank will have the effect of returning all senses in the database.</p>
+
+		<div>
+			<h4>Fields</h4>
+
+			<strong>Status</strong>
+			<p>The ‘status’ checkboxes allow you to specify which of the three main subcategories results will be returned from: ‘classified’, ‘unclassified’, or ‘intractable’. By default, the first is ticked, and the latter two are unticked.</p>
+
+			<p>These settings may be overruled if a value is set in the ‘Thesaurus branch’ or ‘Reason code’ dropdowns (see below). In such a case, it’s implied that only classified senses should be returned, regardless of the status checkboxes.</p>
+
+			<strong>Lemma</strong>
+			<p>Returns senses with the lemma specified (like ‘lemma’ mode in Quick Search). As with Quick search, the query term may be a complete lemma, a wildcarded lemma, or a lemma range.</p>
+
+			<p>The lemma field is case-, space-, hyphen-, and diacritic-insensitive.</p>
+
+			<strong>Entry headword</strong>
+			<p>Returns senses contained in entries with the given headword (like ‘headword’ mode in Quick Search). As with Quick Search, the query term may be a complete lemma, a wildcarded lemma, or a lemma range.</p>
+
+			<p>The headword field is case-, space-, hyphen-, and diacritic-insensitive.</p>
+
+			<strong>Wordclass</strong>
+			<p>Filters results to include only senses with the specified wordclass. (Note that this is the wordclass of the sense, not necessarily of its parent entry.)</p>
+
+			<strong>Sense type</strong>
+			<p>Filters results to include only senses of the specified type (main senses, compounds, derivatives, etc.)</p>
+
+			<strong>Definition status</strong>
+			<p>Filters results to include only defined senses, or only undefined senses (the latter being chiefly undefined subentries).</p>
+
+			<strong>Split definition</strong>
+			<p>Filters results to return only senses which have been split into separate subdefinitions.</p>
+
+			<strong>Reason code</strong>
+			<p>Filters results to include only senses provisionally classified with a given reason code, i.e. classified using a particular method.</p>
+
+			<p>As with thesaurus branch above, a reason code can only apply to senses with 'classified' status. Hence specifying a reason code automatically sets 'status' to 'classified', regardless of the status settings at the top of the form.</p>
+
+			<strong>Thesaurus branch</strong>
+			<p>Filters results to include only senses provisionally classified to a particular main branch of the thesaurus, e.g. only senses on the 'emotion or feeling' branch.</p>
+
+			<p>By definition, this can only apply to senses 'classified' status. Hence specifying a thesaurus branch automatically sets 'status' to 'classified', regardless of the status settings at the top of the form.</p>
+
+			<strong>Include topical classifications</strong>
+			<p>Tick this to include senses with high-level topic- or Bayes-based classifications (these are omitted by default from normal quick and advanced search results).</p>
+
+			<strong>Bayes match</strong>
+			<p>Filter results to include only senses where the assigned classification conflicts with the Bayesian classification of the sense. (See separate documentation for more on Bayesian classification and Bayes mismatches.)</p>
+
+			<strong>Manually marked as</strong>
+			<p>Filter results to include only senses which have been manually marked as correct, incorrect, etc.</p>
+
+			<strong>Edited by</strong>
+			<p>Filter results to include only senses last edited by a particular user.</p>
+
+			<strong>Most recent edited</strong>
+			<p>Filter results to include only senses last edited in a particular period (e.g. in the last 24 hours).</p>
+		</div>
+
+		<div>
+			<h4>Settings</h4>
+			<p>Settings in the Advanced Search form are ‘sticky’, i.e. should persist for the duration of your session. This means that each time you visit the Advanced Search form, it will retain the settings from the last time you used it. However, these settings will not be applied to any searches performed using the Quick Search box.</p>
+		</div>
+	</div>
+
+
+	<div class="well" id="searchresults">
+		<h3>Search results</h3>
+
+		<p>The format of results is the same for Quick Search and for Advanced Search. Each result represents a single sense (a main sense or subentry). Results are returned in dictionary order.</p>
+
+		<p>If the sense has a provisional thesaurus classification, this is shown as a taxonomic breadcrumb.</p>
+
+		<p>To go to the sense detail page, click the lemma (highlighted in blue) or the sense-detail icon (<i class="icon-list"></i>) in the second column.</p>
+
+		<p>Click the <i class="icon-share-alt"></i> icon in the second column to view the sense in the Dictionary Browser (opening in a separate browser tab or window).</p>
+
+		<p>Click the <i class="icon-share-alt"></i> icon adjacent to the thesaurus-class breadcrumb to view the class in the Thesaurus Browser (opening in a separate browser tab or window).</p>
+
+		<p>In edit mode, each sense also has a set of buttons to mark the classification; and each thesaurus-class breadcrumb has a <i class="icon-move"></i> icon for adjusting the classification. Runner-up classifications are shown by default.</p>
+
+		<div>
+			<h4>Sampling</h4>
+
+			<p>If a search returns over 50 results (i.e. more than a single page), you can sample the results to view a random subset of the full results set. Click the appropriate number in the ‘random sample’ row at the top of the results. E.g. click ‘100’ for a random sample of 100 results. Sample results are unpaginated.</p>
+
+			<p>Reloading the page should produce a different random sample each time.</p>
+
+			<p>To return to the full results set, remove the ‘sample’ parameter from the set of search parameters listed above the results.</p>
+		</div>
+	</div>
+
+
+	<div class="well" id="sensedetail">
+		<h3>Sense detail</h3>
+
+		<p>Click on a lemma in the results list to see more detail for the sense. If the sense has been given a provisional classification, this includes detail on the thesaurus class to which it has been assigned, and the means by which the classification was computed.</p>
+
+		<p>The Sense Detail page can also be used to add and edit notes.</p>
+	</div>
+
+
+	<div class="well" id="datestamps">
+		<h3>Date-, time-, and user stamps</h3>
+
+		<p>Every editorial action (e.g. approving a classification; moving a classification; adding or editing a note) is date-, time-, and user-stamped. You can see the most recent stamp at the bottom of the Sense Detail page.</p>
+
+		<p>In the results list, a user icon (<i class="icon-user"></i>) appears against any sense that has been edited. Mouse over the user icon to see who last edited the sense.</p>
+
+		<p>The Advanced Search form includes fields to retrieve senses last edited by a given user, or senses last in a given period (e.g. last edited in the last 25 hours).</p>
+	</div>
+
+
+	<div class="well" id="analysis">
+		<h3>Analysis</h3>
+
+		<p>The composition of any results set can be analysed by clicking the 'Analyse' button at the top of the results page. The analysis view shows how the results set can be subcategorized according to various features, such as wordclass, sense type, or thesaurus branch.</p>
+
+		<div>
+			<h4>Filtering</h4>
+
+			<p>For any subcategory shown in the analysis view, the feature can be added as a further filter to the current search, by clicking the ‘Add filter’ button to the right. For example, clicking ‘Add filter’ against the ‘verb’ wordclass subcategory will add a ‘wordclass=verb’ filter to the current search, meaning that only verb senses are returned. The analysis view will now show the composition of this new subset.</p>
+		</div>
+
+		<div>
+			<h4>Returning to the results list</h4>
+
+			<p>Return to the results list by clicking the ‘View results’ button at the top of the page. The results list will be updated to reflect any filters added or removed while in the analysis view.</p>
+		</div>
+	</div>
+
+
+	<div class="well" id="runnerup">
+		<h3>Runner-up classifications</h3>
+
+		<p>For most senses, the classifier proposes a single thesaurus classification, representing the classifier’s best guess as to where the sense belongs. However, some senses also have one or two ‘runner-up’ classifications, representing other possibilities that the classifier considered.</p>
+
+		<p>In ‘read’ mode, runner-up classifications are hidden by default in the results list, but can be displayed by clicking the caret (<i class="icon-chevron-down"></i>) beneath the primary classification.</p>
+
+		<p>In ‘edit’ mode, runner-up classifications are displayed by default.</p>
+
+		<p>All runner-up classifications are marked as incorrect by default. In most cases, there should be no need to change this. However, if you judge the runner-up classification to be valid (either in preference to the primary classification, or as a viable alternative interpretation of the sense), you can mark the classification as correct. A runner-up classification can also be adjusted in the same way as a primary classification.</p>
+
+		<p>Once a runner-up classification has been approved, it will appear alongside (or instead of) the primary classification in results lists (in both read and edit modes).</p>
+	</div>
+
+
+	<div class="well" id="split">
+		<h3>Split definitions</h3>
+
+		<p>If the definition for a single dictionary sense consists of two or more distinct subdefinitions, these may be separated out and treated as distinct results in the results list. Split definitions are indicated by a star in the second column of the results list.</p>
+
+		<p>Each split definition can be approved, annotated, etc., discretely from its siblings.</p>
+
+		<p>You can find split definitions using the relevant field in the Advanced Search form.</p>
+	</div>
+
+
+	<div class="well" id="approving">
+		<h3>Approving a classification</h3>
+
+		<p>When edit mode it on, a set of buttons appears beneath each classification in results lists and in the sense detail view.</p>
+
+		<p>These buttons can be used to mark the classification as correct, partially correct, or incorrect. The selected button will be highlighted to show the marking (green for ‘correct’, amber for ‘partially correct’, red for ‘incorrect’).</p>
+
+		<p>You can change the marking by clicking one of the other buttons, or unset the marking by clicking the highlighted button again.</p>
+
+		<p>The three markings should be understood as follows:
+			<ul>
+				<li><strong>Correct</strong>: the classification is correct, and no further work will be required.</li>
+				<li><strong>Partially correct</strong>: the classification is on the correct branch, but the sense will need to be moved down to a child or descendant class. (I.e. the classification assigned is a direct ancestor of the class to which the sense properly belongs.) This can be useful if the correct thesaurus class does not yet exist in the taxonomy, and will need to be created.</li>
+				<li><strong>Incorrect</strong>: the classification is not correct, and is not a direct ancestor of the correct class.</li>
+			</ul>
+		</p>
+
+		<p>If the classification is above wordclass level (e.g. <em>the living world » clothing</em>), the ‘correct’ button will not be available. This is because a classification above wordclass level cannot be fully correct. However, the sense can be marked as ‘partially correct’ if it's on the right branch.</p>
+
+		<div>
+			<h4>Marking runner-up classifications</h4>
+
+			<p>‘Runner-up’ classifications can be marked in the same way as the primary classification. Whereas the primary classification is unmarked by default, runner-up classifications are marked as ‘incorrect’ by default.</p>
+
+			<p>You can promote a runner-up classification by marking the primary classification as ‘incorrect’, and marking the runner-up as ‘correct’ or ‘partially correct’. In results lists, the runner-up classification will now appear first.</p>
+
+			<p>If a sense has runner-up classifications, it’s possible to mark more than one classification as ‘correct’ (or ‘partially correct’). This gives some scope for assigning multiple classifications to a single sense.</p>
+		</div>
+
+		<div>
+			<h4>Appearance</h4>
+
+			<p>In results lists, classifications marked as ‘correct’ or ‘partially correct’ appear highlighted with a red border.</p>
+
+			<p>Classifications marked as ‘incorrect’ appear slightly faded out.</p>
+		</div>
+
+		<div>
+			<h4>searching for senses with a particular marking</h4>
+
+			<p>To search for senses whose classification has been given a particular marking, use the ‘Manually marked as’ field in the Advanced Search form.</p>
+		</div>
+	</div>
+
+
+	<div class="well" id="adjusting">
+		<h3>Adjusting an incorrect classification</h3>
+
+		<p>If the classification of a given sense is incorrect, you can mark it as incorrect, or you can adjust the classification to point to the correct thesaurus class. To do the latter, click the <i class="icon-move"></i> icon at the end of the breadcrumb for the current classification (only shown when in ‘edit’ mode).</p>
+
+		<p>This opens an overlay with two methods for selecting the correct classification: Tree navigation and Direct class ID selection.</p>
+
+		<p>The method you use will depend on the particular circumstances. In general, the ‘Tree navigation’ method is easier when the classification you want is close to the current (incorrect) classification, e.g. a child or sibling node. The ‘Direct class ID selection’ method may be easier when the classification you want is more distant from the current classification.</p>
+
+		<p>You can cancel at any point by clicking ‘close’ at the bottom of the overlay box.</p>
+
+		<div>
+			<h4>Tree navigation</h4>
+
+			<p>The Tree Navigation dialogue shows the region of the HTOED taxonomy local to the current classification (parent nodes, child nodes, and sibling nodes).</p>
+
+			<p>You can navigate around the taxonomy by clicking the <i class="icon-plus"></i> icon adjacent to a branch; this re-centres the display on that branch, and opens its set of child and sibling nodes. The <i class="icon-plus"></i> icon is only shown against branches which have child nodes and which are valid for the current sense. For example, if the current sense is a noun, you will be able to navigate into noun branches but not into adjective or verb branches.</p>
+
+			<p>You can view any branch in the Thesaurus Browser by clicking the <i class="icon-share-alt"></i> icon next to the branch. As usual, this opens in a separate browser window or tab.</p>
+
+			<p>To select the branch you want, click the branch label (highlighted in blue). Only valid branches are available to be selected in this way; the branch must be at or below wordclass level, and in the right wordclass (e.g. if the current sense is a noun, you won’t be able to select an adjective branch).</p>
+		</div>
+
+		<div>
+			<h4>Direct class ID selection</h4>
+
+			<p>This method depends on finding the ID number of the correct class by other means, and copying the ID number into the input box provided. It’s assumed that ‘other means’ will usually be the Thesaurus Browser, opened in a separate browser tab or window.</p>
+
+			<p>Once you have found the correct class via the Thesaurus Browser, click ‘link to this page’.</p>
+
+			<p>The ID of the thesaurus class will now appear as part of the URL in your browser’s address bar.</p>
+
+			<p>You can either paste in this ID number, or paste in the whole URL; in the latter case, the ID number will be extracted automatically.</p>
+		</div>
+
+		<div>
+			<h4>Automatic approval</h4>
+
+			<p>Once you have clicked the correct thesaurus class (using the ‘Tree navigation’ method) or clicked ‘submit’ (using the ‘Direct class ID selection’ method), the overlay will close and the current page will reload with the new classification in place.</p>
+
+			<p>Note that the new classification has been automatically marked as ‘approved’ (the tick button is highlighted in green). If this is not what you want, you can click the highlighted approval mark to toggle it off.</p>
+		</div>
+	</div>
+
+
+	<div class="well" id="notes">
+		<h3>Adding and editing notes</h3>
+
+		<p>In ‘edit’ mode, the Sense Detail page includes an input box to add or edit a note.</p>
+
+		<p>When a note has been added, the text of the note appears at the top of the Sense Detail page.</p>
+
+		<p>In results lists, a speech-bubble icon (<i class="icon-comment"></i>) appears next to any sense that has a note; click the icon to go through to the Sense Detail page and read the note.</p>
+	</div>
+
+
+	<div class="well" id="intractable">
+		<h3>Intractable senses</h3>
+
+		<p>Some senses are judged to be not classifiable, and are therefore categorized as ‘intractable’. This category includes senses which are known a priori not to fit into the HT taxonomy, notably senses with wordclasses not covered by the HT (e.g. prepositions, conjunctions, and pronouns). It also includes senses whose definition indicates that they are semantically too vague to be meaningfully classified (e.g. proverb senses, general attrib. senses, and similar).</p>
+
+		<p>Currently, about 5% of the senses in the data set are in the ‘intractable’ category. These can be ignored for most practical purposes, and are therefore excluded from search results by default. However, they can be included the ticking the ‘intractable’ checkbox in the Status section of the Advanced Search form. </p>
+	</div>
+{% endblock %}

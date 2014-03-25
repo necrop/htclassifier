@@ -1,0 +1,83 @@
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+td select {
+	line-height: 1;
+}
+
+.navbar-inverse .navbar-inner {
+	background-color: #003399;
+	background-image: none;
+}
+
+
+.hero-unit {
+	background-color: #FCD271;
+	color: black;
+}
+
+.subhero {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+
+
+.lemma {
+	font-size: 1.5em;
+}
+
+.definition {
+}
+
+.thesclass {
+	padding: 0.5em;
+	/*margin-top: 0.5em; 8*/
+	border: 1px solid #F4E7CF;
+	background-color: #FFF3D6;
+	color: #8C6B39;
+}
+.thesclassDeprecated {
+	background-color: #FFF9EA;
+	color: #A1865E;
+}
+.thesclassApproved {
+	border-color: red;
+}
+
+.checkboxWrapper {
+	margin-top: 5px;
+	margin-left: 10px;
+	font-size: 0.6em;
+}
+
+.warningSign {
+	background-color: #FA6121;
+}
+
+.spacedPara {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.comment {
+	background-color: #F89A7E;	
+}
+
+
+/* Modal used for changing class */
+
+body div#classchangeModal {
+	width: 650px;
+}
+
+div.modal-body > div {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid lightgray;
+}
+
+div#classchangeModal .treeElement {
+	text-indent: -2em;
+}

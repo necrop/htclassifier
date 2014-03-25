@@ -1,0 +1,5 @@
+﻿{{ c.breadcrumb }}
+<a href="{{ c.oed_url }}" target="tbrowser" title="View this class in Thesaurus Browser"><i class="icon-share-alt"></i></a>
+{%  if controls == 'on' %}
+	<a class="changeclass" href="#" title="Move to another thesaurus class" classid="{{ c.id }}"><i class="icon-move"></i></a>
+{% endif %}

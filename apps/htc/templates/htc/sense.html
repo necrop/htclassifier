@@ -1,0 +1,160 @@
+﻿{% extends "htc/baseactive.html" %}
+
+
+{% block page_title %}
+{{ sense.lemma }}
+{% endblock %}
+
+
+{% block visiblecontent %}
+	<div class="hero-unit subhero">
+		<h2>{{ sense.lemma }} ({{ sense.wordclass_readable }})</h2>
+	</div>
+
+	{% if sense.comment %}
+		<div class="row-fluid">
+			<div class="span8 offset1 well comment">
+				<strong>Note:</strong>
+				<br/>{{ sense.comment_with_linebreaks|safe }}
+				<br/>&nbsp;&nbsp;[added by {{ sense.user_label }}]
+			</div>
+		</div>
+	{% endif %}
+
+	<div class="row-fluid">
+		<div class="span8 offset1">
+			<table class="table table-bordered">
+				<tbody>
+					<tr>
+						<td><strong>Lemma</strong></td>
+						<td>
+							{{ sense.lemma }} ({{ sense.wordclass_readable }})
+							<a href="{{ sense.oed_url }}" target="dbrowser" title="View this sense in Dictionary Browser">
+								<i class="icon-share-alt"></i>
+							</a>
+						</td>
+					</tr>
+					<tr>
+						<td><strong>Entry headword</strong></td>
+						<td>{{ sense.headword }}</td>
+					</tr>
+					<tr>
+						<td><strong>Definition</strong></td>
+						<td>
+							{% if sense.definition %}
+								&quot;{{ sense.definition }}&quot;
+							{% else %}
+								[undefined]
+							{% endif %}
+							{% if sense.splitdefinition %}<i class="icon-star-empty" title="This is a split definition"></i>{% endif %}
+						</td>
+					</tr>
+					<tr>
+						<td><strong>Sense type</strong></td>
+						<td>{% if sense.subentrytype %}{{ sense.subentrytype }}{% else %}main sense{% endif %}</td>
+					</tr>
+					<tr>
+						<td><strong>Entry ID/node ID</strong></td>
+						<td>{{ sense.refentry }}#eid{{ sense.refid }}</td>
+					</tr>
+					<tr>
+						<td><strong>Status</strong></td>
+						<td>{{ sense.status_readable }}</td>
+					</tr>
+					<tr>
+						<td><strong>Bayes classification</strong></td>
+						<td>
+							{% if sense.bayes %}
+								{% include "htc/includes/breadcrumb.html" with c=sense.bayes controls='off' %}
+								&nbsp;&nbsp; (confidence={{ sense.bayesconfidence }}/10)
+								{% if sense.bayesmismatch %}
+									<span class="warningSign" title="Mismatched with primary thesaurus classification"><i class="icon-warning-sign"></i></span>
+								{% endif %}
+							{% else %}
+								none
+							{% endif %}
+						</td>
+					</tr>
+					{% if sense.reasoncode %}
+						<tr>
+							<td><strong>Reason code</strong></td>
+							<td>
+								<a href="{% url 'htc:searchresults' %}?reasoncode={{ sense.reasoncode }}" title="Find other senses with this reason code">{{ sense.reasoncode }}</a> &nbsp;&nbsp; [{{ sense.reasontext }}]
+							</td>
+						</tr>
+					{% endif %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	{% for t in sense.thesclasses %}
+		<div class="row-fluid">
+			<div class="span8 offset1 well">
+				{% include "htc/includes/thesclass.html" with class=t sense_id=sense.id highlight=True %}
+
+				<table class="table table-bordered">
+					<tbody>
+						<tr>
+							<td><strong>Level</strong></td>
+							<td>{{ t.class.level }}</td>
+						</tr>
+						<tr>
+							<td><strong>Below wordclass level?</strong></td>
+							<td>{% if t.class.wordclass %}yes{% else %}no{% endif %}</td>
+						</tr>
+						<tr>
+							<td><strong>Branch size</strong></td>
+							<td>{{ t.class.branchsize }}</td>
+						</tr>
+
+					</tbody>
+				</table>
+
+				<div class="spacedPara">
+					<a href="{% url 'htc:searchresults' %}?branch={{ t.class.level2_ancestor.id }}">Find other senses classified on the &quot;{{ t.class.level2_ancestor.breadcrumb }}&quot; branch &#187;</a>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+
+
+	{% if editmode == 'on' %}
+		<div class="row-fluid">
+			<div class="span8 offset1 well">
+				<h4>
+					{% if sense.comment %}
+						Edit note
+					{% else %}
+						Add note
+					{% endif %}
+				</h4>
+				<form class="form-horizontal" action="{% url 'htc:addcomment' %}" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="senseid" value="{{ sense.id }}"/>
+					<textarea class="span8" rows="3" name="commenttext">{% if sense.comment %}{{ sense.comment }}{% endif %}</textarea>
+					<p>
+						<div class="btn-group">
+							<button type="submit" class="btn btn-primary">Submit</button>
+							{% if sense.comment %}
+								<a href="{% url 'htc:deletecomment' id=sense.id %}" class="btn btn-danger">Delete note</a>
+							{% endif %}
+						</div>
+					</p>
+				</form>
+			</div>
+		</div>
+	{% endif %}
+
+	{%  if sense.timestamp %}
+		<div class="row-fluid">
+			<div class="span8 offset1">
+				{% if sense.user %}
+					This record was last updated by {{ sense.user_label }} on {{ sense.timestamp|date:"r" }}.
+				{% else %}
+					This record was last updated on {{ sense.timestamp|date:"r" }}.
+				{% endif %}
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}
