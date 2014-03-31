@@ -166,6 +166,7 @@ class Sense(models.Model):
     reasontext = models.CharField(max_length=200, null=True)
     reasoncode = models.CharField(max_length=4, null=True, db_index=True)
     splitdefinition = models.BooleanField()
+    definition_supplement = models.CharField(max_length=150, null=True)
 
     comment = models.TextField(null=True)
     timestamp = models.DateTimeField(auto_now=True, null=True, db_index=True)

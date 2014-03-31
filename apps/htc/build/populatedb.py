@@ -28,7 +28,7 @@ def populate_taxonomy():
 
 
 def populate_senses():
-    _empty_tables(['sense',])
+    _empty_tables(['sense', ])
 
     for letter in string.ascii_uppercase:
         stdout.write('Inserting data for %s...\n' % letter)

@@ -1,0 +1,12 @@
+{% if sense.definition %}
+	&quot;{{ sense.definition }}&quot;
+	{% if sense.splitdefinition %}
+		<i class="icon-star-empty" title="This is a split definition"></i>
+	{% endif %}
+{% else %}
+	[undefined]
+{% endif %}
+
+{% if sense.definition_supplement %}
+	&nbsp;<em>&quot;{{ sense.definition_supplement }}&quot;</em>
+{% endif %}
