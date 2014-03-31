@@ -12,21 +12,31 @@ home
 
 	<div class="row-fluid">
 		<div class="span4 well">
-			<h2>Search</h2>
-			<p>Advanced search options</p>
+			<h2>Quick search</h2>
+			{% include 'htc/includes/quicksearch.html' with pullright=False %}
+			<p>
+				Enter lemma in downcased form, without diacritics or hyphens.
+				You can give a simple lemma, e.g. 'knight', or a prefix with wildcard, e.g. 'kn*'.
+				Use an underscore to specify a range, e.g. 'kn_kozz'.
+			</p>
+		</div>
+		<div class="span4 well">
+			<h2>Advanced search</h2>
+			<p>Search with a range of additional filters.</p>
 			<p><a class="btn btn-primary" href="{% url 'htc:searchform' %}">&nbsp;<i class="icon-chevron-right icon-white"></i>&nbsp;</a></p>
 		</div>
 		<div class="span4 well">
 			<h2>Help</h2>
 			<p><a class="btn btn-primary" href="{% url 'htc:info' page='help' %}">&nbsp;<i class="icon-chevron-right icon-white"></i>&nbsp;</a></p>
 		</div>
-		<div class="span4 well">
-			<h2>Documents</h2>
-			<p><a class="btn btn-primary" href="{% url 'htc:info' page='documents' %}">&nbsp;<i class="icon-chevron-right icon-white"></i>&nbsp;</a></p>
-		</div>
 	</div>
 
 	<div class="row-fluid">
+		<div class="span4 well">
+			<h2>Documents</h2>
+			<p>Proposals and reports relating to the HT Classifier project.</p>
+			<p><a class="btn btn-primary" href="{% url 'htc:info' page='documents' %}">&nbsp;<i class="icon-chevron-right icon-white"></i>&nbsp;</a></p>
+		</div>
 		<div class="span4 well">
 			<h2>Snapshot</h2>
 			<p>Summary of the current state of the database</p>

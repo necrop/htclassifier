@@ -1,0 +1,19 @@
+<form {% if pullright %}class="navbar-form pull-right"{% endif %} action="{% url 'htc:submitsearch' %}" method="post">
+	{% csrf_token %}
+	<input type="hidden" name="mode" value="quick"/>
+	<div class="input-prepend input-append">
+		 <div class="btn-group">
+			<button class="btn dropdown-toggle quicksearchmode" data-toggle="dropdown">
+				<span class="caret"></span> Headword:
+			</button>
+			<ul class="dropdown-menu quicksearchswitch">
+				<li><a href="#">Search by headword</a></li>
+				<li><a href="#">Search by lemma</a></li>
+			</ul>
+		</div>
+		<input class="input-medium quicksearchinput" type="text" name="headword" value="{{ quicksearchvalue }}"/>
+		<button type="submit" class="btn" title="quick search">
+			<i class="icon-search"></i>
+		</button>
+	</div>
+</form>

@@ -74,28 +74,7 @@
 							</a>
 						{% endif %}
 
-						<form class="navbar-form pull-right" action="{% url 'htc:submitsearch' %}" method="post">
-							<a data-content="Enter lemma in downcased form, without diacritics or hyphens. You can give a simple lemma, e.g. 'knight', or a prefix with wildcard, e.g. 'kn*'. Use an underscore to specify a range, e.g. 'kn_kozz'." rel="popover-below" data-toggle="popover" href="#">
-								<i class="icon-question-sign icon-white"></i>
-							</a>&nbsp;
-							{% csrf_token %}
-							<input type="hidden" name="mode" value="quick"/>
-							<div class="input-prepend  input-append">
-								 <div class="btn-group">
-									<button class="btn dropdown-toggle" data-toggle="dropdown" id="quicksearchmode">
-										<span class="caret"></span> Headword:
-									</button>
-									<ul class="dropdown-menu" id="quicksearchswitch">
-										<li><a href="#">Search by headword</a></li>
-										<li><a href="#">Search by lemma</a></li>
-									</ul>
-								</div>
-								<input class="span2" type="text" name="headword" value="{{ quicksearchvalue }}" id="quicksearchinput"/>
-								<button type="submit" class="btn" title="quick search">
-									<i class="icon-search"></i>
-								</button>
-							</div>
-						</form>
+						{% include 'htc/includes/quicksearch.html' with pullright=True %}
 					</div><!--/.nav-collapse -->
 				</div>
 			</div>

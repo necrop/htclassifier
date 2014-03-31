@@ -88,7 +88,7 @@ $(document).ready( function() {
 	});
 
 
-	$('#quicksearchswitch a').click( function (event) {
+	$('.quicksearchswitch a').click( function (event) {
 		var mode;
 		if ($(this).text() === 'Search by lemma') {
 			mode = 'lemma';
@@ -111,9 +111,9 @@ $(document).ready( function() {
 function changeQuicksearchMode(mode) {
 	// mode should be 'lemma' or 'headword'
 	// Change the name of the input box (lemma/headword)
-	$('#quicksearchinput').attr('name', mode);
+	$('.quicksearchinput').attr('name', mode);
 	// Update the text of input box's label
-	$('#quicksearchmode').html('<span class="caret"></span> ' + mode.charAt(0).toUpperCase() + mode.slice(1) + ':');
+	$('.quicksearchmode').html('<span class="caret"></span> ' + mode.charAt(0).toUpperCase() + mode.slice(1) + ':');
 }
 
 
