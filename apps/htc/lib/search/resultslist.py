@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
+from django.contrib.auth.models import User
 
 from ...models import Sense, ThesaurusClass
 from ..codeinterpreter import code_interpreter
@@ -83,9 +84,13 @@ class ResultsList(object):
         if kwargs.get('snapshot'):
             features = (('status', 'status'), ('reasoncode', 'reason code'))
         else:
-            features = (('status', 'status'), ('wordclass', 'wordclass'),
-                ('subentrytype', 'sense type'), ('undefined', 'definition status'),
-                ('reasoncode', 'reason code'), ('level2branch', 'branch'),)
+            features = (('status', 'status'),
+                        ('wordclass', 'wordclass'),
+                        ('subentrytype', 'sense type'),
+                        ('undefined', 'definition status'),
+                        ('reasoncode', 'reason code'),
+                        ('level2branch', 'branch'),
+                        ('user', 'last edited by'),)
         qset = self._build_queryset()
         counts = {}
         for feature, display in features:
@@ -290,6 +295,9 @@ class DataPoint(object):
                 return self.value
         elif self.feature_display == 'reason code':
             return code_interpreter(self.value)
+        elif self.feature_display == 'last edited by':
+            user = User.objects.get(id=int(self.value))
+            return user.username
         else:
             return self.value
 
@@ -311,6 +319,9 @@ class DataPoint(object):
                 keyname = 'branch'
             elif self.feature_display == 'sense type':
                 keyname = 'sensetype'
+            elif self.feature_display == 'last edited by':
+                keyname = 'editedby'
+                value = self.value_display()
             elif self.feature_display == 'definition status':
                 keyname = 'defstatus'
                 if self.value == True:

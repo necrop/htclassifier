@@ -62,7 +62,7 @@
 									{% endif %}
 								</td>
 								<td>
-									{% if snapshot or values|length == 1 %}
+									{% if snapshot %}
 										&nbsp;
 									{% else %}
 										<a class="btn btn-primary btn-small" href="{{ path }}?{{ v.filter_added }}">
