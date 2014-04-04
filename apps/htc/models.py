@@ -11,6 +11,7 @@ class ThesaurusClassBase(models.Model):
 
     label = models.CharField(max_length=200, null=True)
     wordclass = models.CharField(max_length=20, null=True)
+    breadcrumb = models.CharField(max_length=350)
     level = models.IntegerField(db_index=True)
     superordinate = models.ForeignKey('self', null=True)
     branchsize = models.IntegerField()
@@ -59,7 +60,14 @@ class ThesaurusClassBase(models.Model):
     def indent(self):
         return self.level * 2
 
-    def breadcrumb(self):
+    def breadcrumb_dynamic(self):
+        """
+        Build the breadcrumb dynamically (by iterating through the labels
+        of the present class's ancestors) and return it (as a string).
+
+        It should usually be sufficient to use the stored breadcrumb; but
+        this might be useful if, for example, the taxonomy changes.
+        """
         ancestors = reversed(self.ancestors())
         ancestor_strings = []
         found_wordclass = False
@@ -79,7 +87,7 @@ class ThesaurusClassBase(models.Model):
                 return recurse(node.superordinate, val)
             else:
                 return val
-        return recurse(self, '') + self.breadcrumb()
+        return recurse(self, '') + self.breadcrumb
 
     def oed_url(self):
         template = '%sclassid=%d'

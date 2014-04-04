@@ -277,7 +277,7 @@ class DataPoint(object):
     def value_display(self):
         if self.feature_display == 'branch':
             thesclass = ThesaurusClass.objects.get(id=int(self.value))
-            return thesclass.breadcrumb()
+            return thesclass.breadcrumb
         elif self.feature_display == 'wordclass':
             try:
                 return self.wordclass_map[self.value]

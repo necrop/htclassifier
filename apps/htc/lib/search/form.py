@@ -86,16 +86,16 @@ class SearchForm(object):
         else:
             default = True
         lev2 = Level2Class.objects.filter(level=2, wordclass=None)
-        lev2 = sorted(list(lev2), key=lambda c: c.breadcrumb())
+        lev2 = sorted(list(lev2), key=lambda c: c.breadcrumb)
         if default or self.store.get('branch') == 'any':
             options = [('any', 'any', True),]
         else:
             options = [('any', 'any', False),]
         for thesclass in lev2:
             if self.store.get('branch') == str(thesclass.id):
-                options.append((thesclass.id, thesclass.breadcrumb(), True))
+                options.append((thesclass.id, thesclass.breadcrumb, True))
             else:
-                options.append((thesclass.id, thesclass.breadcrumb(), False))
+                options.append((thesclass.id, thesclass.breadcrumb, False))
         return options
 
     def sensetype_options(self):

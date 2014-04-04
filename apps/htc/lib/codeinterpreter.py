@@ -23,5 +23,6 @@ def code_interpreter(code):
     except KeyError:
         return code
 
+
 def code_list():
     return glosses

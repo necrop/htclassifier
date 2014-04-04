@@ -26,9 +26,9 @@ def update_status(request):
         elif all([c == 'i' for c in checkbox_values]):
             overall_status = 'i' # all incorrect
         elif all([c is None for c in checkbox_values]):
-            overall_status = '0' # unclassified- this should not arise!
+            overall_status = '0'  # unclassified- this should not arise!
         else:
-            overall_status = '1' # classified but unmarked
+            overall_status = '1'  # classified but unmarked
         sense.status = overall_status
 
         sense.save_with_user(request)
